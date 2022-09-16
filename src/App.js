@@ -41,7 +41,7 @@ import {
     }
   }
   return (
-       <Router>
+       <Router basename='/Textutils'>
         <Navbar tittle="TextUtils" mode={mode} toggleMode={toggleMode} aboutus="About Us" />
         <Alert alert={alert} />
         <div className="container my-5">

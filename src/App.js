@@ -1,24 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import './App.css';
+import Navbar from './components/Navbar';// and come frpm the Navbar.js file
+import TextForm from './components/textform';
+import React, { useState } from 'react'
+import Alert from './components/alert';
+import About from './components/about';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Link
+} from "react-router-dom";
+
+ function App() {
+
+  const [mode, setMode] = useState('light');
+  const [alert, setAlert] = useState(null);
+  const showAlerts = (message, type) => {
+    setAlert({
+      msg: message,
+      type: type
+    })
+    setTimeout(() => {
+      setAlert(null);
+    }, 3000);
+
+  }
+  const toggleMode = () => {
+    if (mode === 'light') {
+      setMode('dark');
+      document.body.style.backgroundColor = '#042743';
+      showAlerts("Dark Mode has been Enabled", "success");
+      document.title = 'TextUtils - Dark Mode';
+    }
+    else {
+      setMode('light');
+      document.body.style.backgroundColor = 'white';
+      showAlerts("Light Mode has been Enabled", "success");
+      // document.title='TextUtils - Light Mode';
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+       <Router>
+        <Navbar tittle="TextUtils" mode={mode} toggleMode={toggleMode} aboutus="About Us" />
+        <Alert alert={alert} />
+        <div className="container my-5">
+           <Routes>
+            <Route path="/about" element={ <About mode={mode} toggleMode={toggleMode}/>}/>
+            <Route path="/" element={<TextForm showAlerts={showAlerts} mode={mode} toggleMode={toggleMode} heading="&#128293;Enter the text to analyze :)" />}/>
+            </Routes>
+        </div>
+     </Router>
   );
 }
 
